@@ -15,7 +15,6 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as SuccessImport } from './routes/success'
 import { Route as AuthImport } from './routes/auth'
-import { Route as AdminImport } from './routes/admin'
 import { Route as PublicImport } from './routes/_public'
 import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as AuthVerifyEmailImport } from './routes/auth/verify-email'
@@ -59,11 +58,6 @@ const SuccessRoute = SuccessImport.update({
 
 const AuthRoute = AuthImport.update({
   path: '/auth',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AdminRoute = AdminImport.update({
-  path: '/admin',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -167,13 +161,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof PublicImport
-      parentRoute: typeof rootRoute
-    }
-    '/admin': {
-      id: '/admin'
-      path: '/admin'
-      fullPath: '/admin'
-      preLoaderRoute: typeof AdminImport
       parentRoute: typeof rootRoute
     }
     '/auth': {
@@ -321,7 +308,6 @@ export const routeTree = rootRoute.addChildren({
     PublicContactLazyRoute,
     PublicIndexLazyRoute,
   }),
-  AdminRoute,
   AuthRoute: AuthRoute.addChildren({
     AuthLoginRoute,
     AuthPasswordRecoveryRoute,
@@ -345,7 +331,6 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_dashboard",
         "/_public",
-        "/admin",
         "/auth",
         "/success",
         "/unauthenticated",
@@ -367,9 +352,6 @@ export const routeTree = rootRoute.addChildren({
         "/_public/contact",
         "/_public/"
       ]
-    },
-    "/admin": {
-      "filePath": "admin.tsx"
     },
     "/auth": {
       "filePath": "auth.tsx",
