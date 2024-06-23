@@ -102,7 +102,7 @@ function SignIn() {
               <div className="grid gap-2">
             <div className="flex items-center">
                 <Label htmlFor={field.name}>Password:</Label>
-                <Link to="/password-recovery" className="ml-auto inline-block text-sm underline">
+                <Link to="/" className="ml-auto inline-block text-sm underline">
                 Forgot your password?
               </Link>
             </div>
