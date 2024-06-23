@@ -1,33 +1,32 @@
 import { QueryClient } from '@tanstack/react-query'
-import { createRootRouteWithContext, Link, Outlet } from '@tanstack/react-router'
+import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
 import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-// import { DrizzleD1Database } from 'drizzle-orm/d1';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
+import { SiteFooter } from '@/components/site-footer'
+import type { AuthContext } from '@/auth'
 
 export const Route = createRootRouteWithContext<{
-  db: D1Database
+  auth: AuthContext
   queryClient: QueryClient
 }>()({
   component: RootComponent,
 })
 
-function RootComponent(){
-  return(
-
+function RootComponent() {
+  return (
     <>
-      <div className="p-2 flex gap-2">
-        <Link to="/" className="[&.active]:font-bold">
-          Home
-        </Link>
-        <Link to="/about" className="[&.active]:font-bold">
-          About
-        </Link>
-        <Link to="/contact" className="[&.active]:font-bold">
-          Contact
-        </Link>
+      <div className="relative flex min-h-screen flex-col">
+        <main className="flex-1">
+          <Outlet />
+        </main>
+        <SiteFooter />
       </div>
-      <hr />
-      <Outlet />
-      <TanStackRouterDevtools />
+      {import.meta.env.DEV ? (
+        <>
+          <ReactQueryDevtools buttonPosition="bottom-left" />
+          <TanStackRouterDevtools position="bottom-right" />
+        </>
+      ) : null}
     </>
   )
 }
