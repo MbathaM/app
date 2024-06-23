@@ -15,8 +15,9 @@ import {
   CardTitle,
 } from "@/components/ui/card"
 import { Icons } from '@/components/icons'
+import { InputPassword } from '@/components/ui/input-password'
 
-export const Route = createFileRoute('/login')({
+export const Route = createFileRoute('/auth/login')({
   component: Login,
 })
 
@@ -43,87 +44,86 @@ function Login() {
       </CardDescription>
     </CardHeader>
     <CardContent>
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          e.stopPropagation()
-          form.handleSubmit()
-        }}
-      >
-        <div>
-          {/* A type-safe field component*/}
-          <form.Field
-            name="email"
-            validators={{
-              onChange: z
-                .string()
-                .email('Must be a valid email address'),
-              onChangeAsyncDebounceMs: 500,
-              onChangeAsync: z.string().refine(
-                async (value) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000))
-                  return !value.includes('error')
-                },
-                {
-                  message: "No 'error' allowed in email",
-                },
-              ),
-            }}
-            children={(field) => {
-              return (
+    <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            form.handleSubmit();
+          }}
+        >
+          <div>
+            {/* Email Field */}
+            <form.Field
+              name="email"
+              validators={{
+                onChange: z.string().email("Must be a valid email address"),
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: z.string().refine(
+                  async (value) => {
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                    return !value.includes("error");
+                  },
+                  {
+                    message: "No 'error' allowed in email",
+                  }
+                ),
+              }}
+              children={(field) => {
+                return (
+                  <>
+                    <Label htmlFor={field.name}>Email:</Label>
+                    <Input
+                      type="email"
+                      id={field.name}
+                      name={field.name}
+                      value={field.state.value}
+                      onBlur={field.handleBlur}
+                      onChange={(e) => field.handleChange(e.target.value)}
+                      autoComplete="email"
+                    />
+                    <FieldInfo field={field} />
+                  </>
+                );
+              }}
+            />
+          </div>
+          <div className="mt-4">
+            {/* Password Field */}
+            <form.Field
+              name="password"
+              validators={{
+                onChange: z
+                  .string()
+                  .min(6, "Password must be at least 6 characters"),
+                onChangeAsyncDebounceMs: 500,
+                onChangeAsync: z.string().refine(
+                  async (value) => {
+                    await new Promise((resolve) => setTimeout(resolve, 1000));
+                    return !value.includes("error");
+                  },
+                  {
+                    message: "No 'error' allowed in password",
+                  }
+                ),
+              }}
+              children={(field) => (
                 <>
-                  <Label htmlFor={field.name}>Email:</Label>
-                  <Input
-                    type="email"
+                  <Label htmlFor={field.name}>Password:</Label>
+                  <InputPassword
+                    type="password"
                     id={field.name}
                     name={field.name}
                     value={field.state.value}
                     onBlur={field.handleBlur}
                     onChange={(e) => field.handleChange(e.target.value)}
-                    autoComplete='email'
+                    autoComplete="new-password"
                   />
                   <FieldInfo field={field} />
                 </>
-              )
-            }}
-          />
-        </div>
-        <div>
-          <form.Field
-            name="password"
-            validators={{
-              onChange: z
-                .string()
-                .min(6, 'Password must be at least 6 characters'),
-              onChangeAsyncDebounceMs: 500,
-              onChangeAsync: z.string().refine(
-                async (value) => {
-                  await new Promise((resolve) => setTimeout(resolve, 1000))
-                  return !value.includes('error')
-                },
-                {
-                  message: "No 'error' allowed in password",
-                },
-              ),
-            }}
-            children={(field) => (
-              <>
-                <Label htmlFor={field.name}>Password:</Label>
-                <Input
-                  type="password"
-                  id={field.name}
-                  name={field.name}
-                  value={field.state.value}
-                  onBlur={field.handleBlur}
-                  onChange={(e) => field.handleChange(e.target.value)}
-                  autoComplete='current-password'
-                />
-                <FieldInfo field={field} />
-              </>
-            )}
-          />
-        </div>
-        <div className="grid gap-2 pt-2">
+              )}
+            />
+          </div>
+          <div className="grid gap-2 pt-4">
         <form.Subscribe
           selector={(state) => [state.canSubmit, state.isSubmitting]}
           children={([canSubmit, isSubmitting]) => (
@@ -142,7 +142,7 @@ function Login() {
         </div>
         <div className="mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
-          <Link to="/signup" className="underline">
+          <Link to="/auth/signup" className="underline">
             Sign up
           </Link>
         </div>  

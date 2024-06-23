@@ -2,7 +2,13 @@ import React, { createContext, useContext, useEffect, useState, useCallback } fr
 import Cookies from "js-cookie";
 import axios from 'axios';
 
-const AuthContext = createContext<AuthContext | null>(null);
+interface User {
+  email: string;
+  email_verified: number;
+  name: string;
+  image: string;
+  id: string;
+}
 
 export interface AuthContext {
   isAuthenticated: boolean;
@@ -13,11 +19,13 @@ export interface AuthContext {
   recoverPassword: (email: string) => Promise<void>;
   resetPassword: (code: string, newPassword: string) => Promise<void>;
   verifyEmail: (email: string, code: string) => Promise<void>;
-  user: string | null;
+  user: User | null;
 }
 
+const AuthContext = createContext<AuthContext | null>(null);
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [user, setUser] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = !!user;
 
   const signup = useCallback(async (email: string, password: string) => {
