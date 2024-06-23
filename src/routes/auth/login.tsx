@@ -108,7 +108,14 @@ function Login() {
               }}
               children={(field) => (
                 <>
-                  <Label htmlFor={field.name}>Password:</Label>
+            
+            <div className="flex items-center">
+            <Label htmlFor={field.name}>Password:</Label>
+              <Link to="/auth/password-recovery" className="ml-auto inline-block text-sm underline">
+                Forgot your password?
+              </Link>
+          
+                </div>
                   <InputPassword
                     type="password"
                     id={field.name}
