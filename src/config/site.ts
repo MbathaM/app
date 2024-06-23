@@ -17,10 +17,6 @@ export const siteConfig = {
         label: "Contact",
         href: "/contact",
       },
-      // {
-      //   label: "Pricing",
-      //   href: "/pricing",
-      // },
     ],
     dashboard: [
       {
@@ -29,11 +25,11 @@ export const siteConfig = {
       },
       {
         label: "Profile",
-        href: "/profile",
+        href: "/dashboard/profile",
       },
       {
         label: "Settings",
-        href: "/settings",
+        href: "/dashboard/settings",
       },
       // {
       //   label: "Users",
