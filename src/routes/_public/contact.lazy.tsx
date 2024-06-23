@@ -34,7 +34,7 @@ function Contact() {
       console.log('Form submitted:', value);
       // Handle form submission logic here
     },
-    validatorAdapter: zodValidator,
+    validatorAdapter: zodValidator(),
   });
 
   return (
