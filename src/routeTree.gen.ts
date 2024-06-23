@@ -13,227 +13,93 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as SuccessImport } from './routes/success'
-import { Route as PublicImport } from './routes/_public'
-import { Route as DashboardImport } from './routes/_dashboard'
-import { Route as AuthImport } from './routes/_auth'
-import { Route as PublicTermsImport } from './routes/_public/terms'
-import { Route as PublicPolicyImport } from './routes/_public/policy'
-import { Route as PublicDocumentationImport } from './routes/_public/documentation'
-import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
-import { Route as AuthLoginImport } from './routes/_auth/login'
-import { Route as AuthGetStartedImport } from './routes/_auth/get-started'
+import { Route as SignupImport } from './routes/signup'
+import { Route as ProfileImport } from './routes/profile'
+import { Route as LoginImport } from './routes/login'
 
 // Create Virtual Routes
 
-const UnauthorizedLazyImport = createFileRoute('/unauthorized')()
-const UnauthenticatedLazyImport = createFileRoute('/unauthenticated')()
-const MaintenanceLazyImport = createFileRoute('/maintenance')()
-const PublicIndexLazyImport = createFileRoute('/_public/')()
-const PublicContactLazyImport = createFileRoute('/_public/contact')()
-const PublicAboutLazyImport = createFileRoute('/_public/about')()
+const ContactLazyImport = createFileRoute('/contact')()
+const AboutLazyImport = createFileRoute('/about')()
+const IndexLazyImport = createFileRoute('/')()
 
 // Create/Update Routes
 
-const UnauthorizedLazyRoute = UnauthorizedLazyImport.update({
-  path: '/unauthorized',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/unauthorized.lazy').then((d) => d.Route))
-
-const UnauthenticatedLazyRoute = UnauthenticatedLazyImport.update({
-  path: '/unauthenticated',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() =>
-  import('./routes/unauthenticated.lazy').then((d) => d.Route),
-)
-
-const MaintenanceLazyRoute = MaintenanceLazyImport.update({
-  path: '/maintenance',
-  getParentRoute: () => rootRoute,
-} as any).lazy(() => import('./routes/maintenance.lazy').then((d) => d.Route))
-
-const SuccessRoute = SuccessImport.update({
-  path: '/success',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PublicRoute = PublicImport.update({
-  id: '/_public',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const DashboardRoute = DashboardImport.update({
-  id: '/_dashboard',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const AuthRoute = AuthImport.update({
-  id: '/_auth',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PublicIndexLazyRoute = PublicIndexLazyImport.update({
-  path: '/',
-  getParentRoute: () => PublicRoute,
-} as any).lazy(() => import('./routes/_public/index.lazy').then((d) => d.Route))
-
-const PublicContactLazyRoute = PublicContactLazyImport.update({
+const ContactLazyRoute = ContactLazyImport.update({
   path: '/contact',
-  getParentRoute: () => PublicRoute,
-} as any).lazy(() =>
-  import('./routes/_public/contact.lazy').then((d) => d.Route),
-)
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/contact.lazy').then((d) => d.Route))
 
-const PublicAboutLazyRoute = PublicAboutLazyImport.update({
+const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
-  getParentRoute: () => PublicRoute,
-} as any).lazy(() => import('./routes/_public/about.lazy').then((d) => d.Route))
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
 
-const PublicTermsRoute = PublicTermsImport.update({
-  path: '/terms',
-  getParentRoute: () => PublicRoute,
+const SignupRoute = SignupImport.update({
+  path: '/signup',
+  getParentRoute: () => rootRoute,
 } as any)
 
-const PublicPolicyRoute = PublicPolicyImport.update({
-  path: '/policy',
-  getParentRoute: () => PublicRoute,
+const ProfileRoute = ProfileImport.update({
+  path: '/profile',
+  getParentRoute: () => rootRoute,
 } as any)
 
-const PublicDocumentationRoute = PublicDocumentationImport.update({
-  path: '/documentation',
-  getParentRoute: () => PublicRoute,
-} as any)
-
-const DashboardDashboardRoute = DashboardDashboardImport.update({
-  path: '/dashboard',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const AuthLoginRoute = AuthLoginImport.update({
+const LoginRoute = LoginImport.update({
   path: '/login',
-  getParentRoute: () => AuthRoute,
+  getParentRoute: () => rootRoute,
 } as any)
 
-const AuthGetStartedRoute = AuthGetStartedImport.update({
-  path: '/get-started',
-  getParentRoute: () => AuthRoute,
-} as any)
+const IndexLazyRoute = IndexLazyImport.update({
+  path: '/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_auth': {
-      id: '/_auth'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof AuthImport
-      parentRoute: typeof rootRoute
-    }
-    '/_dashboard': {
-      id: '/_dashboard'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof DashboardImport
-      parentRoute: typeof rootRoute
-    }
-    '/_public': {
-      id: '/_public'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PublicImport
-      parentRoute: typeof rootRoute
-    }
-    '/success': {
-      id: '/success'
-      path: '/success'
-      fullPath: '/success'
-      preLoaderRoute: typeof SuccessImport
-      parentRoute: typeof rootRoute
-    }
-    '/maintenance': {
-      id: '/maintenance'
-      path: '/maintenance'
-      fullPath: '/maintenance'
-      preLoaderRoute: typeof MaintenanceLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/unauthenticated': {
-      id: '/unauthenticated'
-      path: '/unauthenticated'
-      fullPath: '/unauthenticated'
-      preLoaderRoute: typeof UnauthenticatedLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/unauthorized': {
-      id: '/unauthorized'
-      path: '/unauthorized'
-      fullPath: '/unauthorized'
-      preLoaderRoute: typeof UnauthorizedLazyImport
-      parentRoute: typeof rootRoute
-    }
-    '/_auth/get-started': {
-      id: '/_auth/get-started'
-      path: '/get-started'
-      fullPath: '/get-started'
-      preLoaderRoute: typeof AuthGetStartedImport
-      parentRoute: typeof AuthImport
-    }
-    '/_auth/login': {
-      id: '/_auth/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof AuthLoginImport
-      parentRoute: typeof AuthImport
-    }
-    '/_dashboard/dashboard': {
-      id: '/_dashboard/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardDashboardImport
-      parentRoute: typeof DashboardImport
-    }
-    '/_public/documentation': {
-      id: '/_public/documentation'
-      path: '/documentation'
-      fullPath: '/documentation'
-      preLoaderRoute: typeof PublicDocumentationImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/policy': {
-      id: '/_public/policy'
-      path: '/policy'
-      fullPath: '/policy'
-      preLoaderRoute: typeof PublicPolicyImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/terms': {
-      id: '/_public/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof PublicTermsImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/about': {
-      id: '/_public/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof PublicAboutLazyImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/contact': {
-      id: '/_public/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof PublicContactLazyImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/': {
-      id: '/_public/'
+    '/': {
+      id: '/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof PublicIndexLazyImport
-      parentRoute: typeof PublicImport
+      preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/profile': {
+      id: '/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof ProfileImport
+      parentRoute: typeof rootRoute
+    }
+    '/signup': {
+      id: '/signup'
+      path: '/signup'
+      fullPath: '/signup'
+      preLoaderRoute: typeof SignupImport
+      parentRoute: typeof rootRoute
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactLazyImport
+      parentRoute: typeof rootRoute
     }
   }
 }
@@ -241,20 +107,12 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  AuthRoute: AuthRoute.addChildren({ AuthGetStartedRoute, AuthLoginRoute }),
-  DashboardRoute: DashboardRoute.addChildren({ DashboardDashboardRoute }),
-  PublicRoute: PublicRoute.addChildren({
-    PublicDocumentationRoute,
-    PublicPolicyRoute,
-    PublicTermsRoute,
-    PublicAboutLazyRoute,
-    PublicContactLazyRoute,
-    PublicIndexLazyRoute,
-  }),
-  SuccessRoute,
-  MaintenanceLazyRoute,
-  UnauthenticatedLazyRoute,
-  UnauthorizedLazyRoute,
+  IndexLazyRoute,
+  LoginRoute,
+  ProfileRoute,
+  SignupRoute,
+  AboutLazyRoute,
+  ContactLazyRoute,
 })
 
 /* prettier-ignore-end */
@@ -265,86 +123,31 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_auth",
-        "/_dashboard",
-        "/_public",
-        "/success",
-        "/maintenance",
-        "/unauthenticated",
-        "/unauthorized"
+        "/",
+        "/login",
+        "/profile",
+        "/signup",
+        "/about",
+        "/contact"
       ]
     },
-    "/_auth": {
-      "filePath": "_auth.tsx",
-      "children": [
-        "/_auth/get-started",
-        "/_auth/login"
-      ]
+    "/": {
+      "filePath": "index.lazy.tsx"
     },
-    "/_dashboard": {
-      "filePath": "_dashboard.tsx",
-      "children": [
-        "/_dashboard/dashboard"
-      ]
+    "/login": {
+      "filePath": "login.tsx"
     },
-    "/_public": {
-      "filePath": "_public.tsx",
-      "children": [
-        "/_public/documentation",
-        "/_public/policy",
-        "/_public/terms",
-        "/_public/about",
-        "/_public/contact",
-        "/_public/"
-      ]
+    "/profile": {
+      "filePath": "profile.tsx"
     },
-    "/success": {
-      "filePath": "success.tsx"
+    "/signup": {
+      "filePath": "signup.tsx"
     },
-    "/maintenance": {
-      "filePath": "maintenance.lazy.tsx"
+    "/about": {
+      "filePath": "about.lazy.tsx"
     },
-    "/unauthenticated": {
-      "filePath": "unauthenticated.lazy.tsx"
-    },
-    "/unauthorized": {
-      "filePath": "unauthorized.lazy.tsx"
-    },
-    "/_auth/get-started": {
-      "filePath": "_auth/get-started.tsx",
-      "parent": "/_auth"
-    },
-    "/_auth/login": {
-      "filePath": "_auth/login.tsx",
-      "parent": "/_auth"
-    },
-    "/_dashboard/dashboard": {
-      "filePath": "_dashboard/dashboard.tsx",
-      "parent": "/_dashboard"
-    },
-    "/_public/documentation": {
-      "filePath": "_public/documentation.tsx",
-      "parent": "/_public"
-    },
-    "/_public/policy": {
-      "filePath": "_public/policy.tsx",
-      "parent": "/_public"
-    },
-    "/_public/terms": {
-      "filePath": "_public/terms.tsx",
-      "parent": "/_public"
-    },
-    "/_public/about": {
-      "filePath": "_public/about.lazy.tsx",
-      "parent": "/_public"
-    },
-    "/_public/contact": {
-      "filePath": "_public/contact.lazy.tsx",
-      "parent": "/_public"
-    },
-    "/_public/": {
-      "filePath": "_public/index.lazy.tsx",
-      "parent": "/_public"
+    "/contact": {
+      "filePath": "contact.lazy.tsx"
     }
   }
 }

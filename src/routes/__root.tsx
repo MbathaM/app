@@ -1,32 +1,32 @@
-import { QueryClient } from '@tanstack/react-query'
-import { createRootRouteWithContext, Outlet } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
-import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
-import { SiteFooter } from '@/components/site-footer'
-import type { AuthContext } from '@/auth'
+import { createRootRoute, Link, Outlet } from "@tanstack/react-router";
+import { TanStackRouterDevtools } from "@tanstack/router-devtools";
 
-export const Route = createRootRouteWithContext<{
-  auth: AuthContext
-  queryClient: QueryClient
-}>()({
-  component: RootComponent,
-})
-
-function RootComponent() {
-  return (
+export const Route = createRootRoute({
+  component: () => (
     <>
-      <div className="relative flex min-h-screen flex-col">
-        <main className="flex-1">
-          <Outlet />
-        </main>
-        <SiteFooter />
+      <div className="p-2 flex gap-2">
+        <Link to="/" className="[&.active]:font-bold">
+          Home
+        </Link>
+        <Link to="/about" className="[&.active]:font-bold">
+          About
+        </Link>
+        <Link to="/contact" className="[&.active]:font-bold">
+          Contact
+        </Link>
+        <Link to="/profile" className="[&.active]:font-bold">
+          Profile
+        </Link>
+        <Link to="/login" className="[&.active]:font-bold">
+          Login
+        </Link>
+        <Link to="/signup" className="[&.active]:font-bold">
+          Signup
+        </Link>
       </div>
-      {import.meta.env.DEV ? (
-        <>
-          <ReactQueryDevtools buttonPosition="bottom-left" />
-          <TanStackRouterDevtools position="bottom-right" />
-        </>
-      ) : null}
+      <hr />
+      <Outlet />
+      <TanStackRouterDevtools />
     </>
-  )
-}
+  ),
+});
