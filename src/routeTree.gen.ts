@@ -21,8 +21,6 @@ import { Route as PublicTermsImport } from './routes/_public/terms'
 import { Route as PublicPolicyImport } from './routes/_public/policy'
 import { Route as PublicDocumentationImport } from './routes/_public/documentation'
 import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
-import { Route as AuthUpdatePasswordImport } from './routes/_auth/update-password'
-import { Route as AuthPasswordRecoveryImport } from './routes/_auth/password-recovery'
 import { Route as AuthLoginImport } from './routes/_auth/login'
 import { Route as AuthGetStartedImport } from './routes/_auth/get-started'
 
@@ -111,16 +109,6 @@ const DashboardDashboardRoute = DashboardDashboardImport.update({
   getParentRoute: () => DashboardRoute,
 } as any)
 
-const AuthUpdatePasswordRoute = AuthUpdatePasswordImport.update({
-  path: '/update-password',
-  getParentRoute: () => AuthRoute,
-} as any)
-
-const AuthPasswordRecoveryRoute = AuthPasswordRecoveryImport.update({
-  path: '/password-recovery',
-  getParentRoute: () => AuthRoute,
-} as any)
-
 const AuthLoginRoute = AuthLoginImport.update({
   path: '/login',
   getParentRoute: () => AuthRoute,
@@ -198,20 +186,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthLoginImport
       parentRoute: typeof AuthImport
     }
-    '/_auth/password-recovery': {
-      id: '/_auth/password-recovery'
-      path: '/password-recovery'
-      fullPath: '/password-recovery'
-      preLoaderRoute: typeof AuthPasswordRecoveryImport
-      parentRoute: typeof AuthImport
-    }
-    '/_auth/update-password': {
-      id: '/_auth/update-password'
-      path: '/update-password'
-      fullPath: '/update-password'
-      preLoaderRoute: typeof AuthUpdatePasswordImport
-      parentRoute: typeof AuthImport
-    }
     '/_dashboard/dashboard': {
       id: '/_dashboard/dashboard'
       path: '/dashboard'
@@ -267,12 +241,7 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  AuthRoute: AuthRoute.addChildren({
-    AuthGetStartedRoute,
-    AuthLoginRoute,
-    AuthPasswordRecoveryRoute,
-    AuthUpdatePasswordRoute,
-  }),
+  AuthRoute: AuthRoute.addChildren({ AuthGetStartedRoute, AuthLoginRoute }),
   DashboardRoute: DashboardRoute.addChildren({ DashboardDashboardRoute }),
   PublicRoute: PublicRoute.addChildren({
     PublicDocumentationRoute,
@@ -309,9 +278,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_auth.tsx",
       "children": [
         "/_auth/get-started",
-        "/_auth/login",
-        "/_auth/password-recovery",
-        "/_auth/update-password"
+        "/_auth/login"
       ]
     },
     "/_dashboard": {
@@ -349,14 +316,6 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_auth/login": {
       "filePath": "_auth/login.tsx",
-      "parent": "/_auth"
-    },
-    "/_auth/password-recovery": {
-      "filePath": "_auth/password-recovery.tsx",
-      "parent": "/_auth"
-    },
-    "/_auth/update-password": {
-      "filePath": "_auth/update-password.tsx",
       "parent": "/_auth"
     },
     "/_dashboard/dashboard": {
