@@ -19,8 +19,7 @@ export function SiteHeader() {
           <nav className="hidden items-center space-x-4 md:flex">
             <ModeToggle />
             {isAuthenticated ? (
-              // Show UserNav if the user is signed in
-              // <UserNav />
+            
               null
             ) : (
               // Show Login and Get Started links if the user is not signed in
