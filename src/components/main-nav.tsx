@@ -4,10 +4,12 @@ import { cn } from "@/lib/utils";
 import { Link } from "@tanstack/react-router";
 
 export function MainNav() {
-  const { isAuthenticated, role } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   // Select the appropriate navigation items based on authentication status
-  const navItems = isAuthenticated ? siteConfig.navItems.dashboard : siteConfig.navItems.public;
+  const navItems = isAuthenticated
+    ? siteConfig.navItems.dashboard
+    : siteConfig.navItems.public;
 
   return (
     <div className="mr-4 hidden md:flex">
@@ -33,18 +35,6 @@ export function MainNav() {
                     {item.label}
                   </Link>
                 )
-            )}
-            {/* Add the Admin link if the user is an admin */}
-            {isAuthenticated && role === 'admin' && (
-              <Link
-                to="/admin"
-                className={cn(
-                  "flex items-center text-sm font-medium text-muted-foreground",
-                  "[&.active]:font-bold [&.active]:text-primary"
-                )}
-              >
-                Admin
-              </Link>
             )}
           </div>
         ) : null}
