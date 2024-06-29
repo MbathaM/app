@@ -34,6 +34,7 @@ function Login() {
     },
     onSubmit: async ({ value }) => {
       await login(value.email, value.password);
+      form.reset()
     },
     validatorAdapter: zodValidator(),
   });
