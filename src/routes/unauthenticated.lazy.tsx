@@ -1,15 +1,22 @@
-import { ExclamationTriangleIcon } from '@radix-ui/react-icons'
-import { createLazyFileRoute, Link } from '@tanstack/react-router'
+import { createLazyFileRoute, Link } from "@tanstack/react-router";
+import { button as buttonStyles } from "@nextui-org/theme";
+import { motion } from "framer-motion";
 
-import { buttonVariants } from '@/components/ui/button'
+import { ExclamationTriangleIcon } from "@/components/icons";
 
-export const Route = createLazyFileRoute('/unauthenticated')({
+export const Route = createLazyFileRoute("/unauthenticated")({
   component: Unauthenticated,
-})
+});
 
 function Unauthenticated() {
   return (
-    <section className="flex min-h-[90vh] flex-col items-center justify-center px-12 py-16 md:px-6 lg:px-8">
+    <motion.section
+      animate={{ opacity: 1, y: 0 }}
+      className="flex min-h-[90vh] flex-col items-center justify-center px-12 py-16 md:px-6 lg:px-8"
+      id="unauthenticated"
+      initial={{ opacity: 0, y: 100 }}
+      transition={{ delay: 0.175 }}
+    >
       <div className="max-w-md items-center justify-center space-y-2 text-center">
         <div className="flex w-full items-center justify-center">
           <ExclamationTriangleIcon className="size-16 animate-pulse text-destructive" />
@@ -21,12 +28,15 @@ function Unauthenticated() {
           You need to be logged in to view this page. Please log in or sign up
           to continue.
         </p>
-        <div className='pt-4'> 
-        <Link className={buttonVariants()} to={'/auth/login'}>
-          Go to Login
-        </Link>
+        <div className="flex gap-3">
+          <Link className={buttonStyles()} to={"/auth/login"}>
+            Go to Login
+          </Link>
+          <Link className={buttonStyles()} to={"/contact"}>
+            contact
+          </Link>
         </div>
       </div>
-    </section>
-  )
+    </motion.section>
+  );
 }

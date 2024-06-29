@@ -1,6 +1,13 @@
-import React, { createContext, useContext, useEffect, useState, useCallback } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+} from "react";
 import Cookies from "js-cookie";
-import axios from 'axios';
+import axios from "axios";
+import { toast } from "sonner";
 
 interface User {
   email: string;
@@ -39,9 +46,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const { data } = await axios.request(options);
-      console.log(data);
+
+      toast.info(data);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }, []);
 
@@ -56,11 +64,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const { data } = await axios.request(options);
-      console.log(data);
+
+      toast.info(data);
       setUser(data.user); // Assuming your API returns the user object or relevant info
-      Cookies.set("auth_session", data.auth_session, { sameSite: "None", secure: true });
+      Cookies.set("auth_session", data.auth_session, {
+        sameSite: "None",
+        secure: true,
+      });
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }, []);
 
@@ -76,7 +88,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser(null); // Clear user state upon logout
       Cookies.remove("auth_session"); // Remove the session cookie
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }, []);
 
@@ -91,9 +103,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const { data } = await axios.request(options);
-      console.log(data);
+
+      toast.info(data);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }, []);
 
@@ -108,9 +121,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const { data } = await axios.request(options);
-      console.log(data);
+
+      toast.info(data);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }, []);
 
@@ -125,9 +139,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const { data } = await axios.request(options);
-      console.log(data);
+
+      toast.info(data);
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }, []);
 
@@ -142,23 +157,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     try {
       const { data } = await axios.request(options);
-      console.log(data);
+
+      toast.info(data);
       setUser(data.user); // Assuming your API returns the user object or relevant info
-      Cookies.set("auth_session", data.auth_session, { sameSite: "None", secure: true });
+      Cookies.set("auth_session", data.auth_session, {
+        sameSite: "None",
+        secure: true,
+      });
     } catch (error) {
-      console.error(error);
+      toast.error(`${error}`);
     }
   }, []);
 
   useEffect(() => {
     // Check if a user is already authenticated on initial load
     const sessionCookie = Cookies.get("auth_session");
+
     if (sessionCookie) {
       // Optionally fetch user info from the server to validate the session
       axios
         .get("/me", { withCredentials: true })
         .then((response) => {
           const { user } = response.data;
+
           setUser(user);
         })
         .catch(() => {
@@ -179,13 +200,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     verifyEmail,
   };
 
-  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  );
 }
 
 export function useAuth() {
   const context = useContext(AuthContext);
+
   if (!context) {
     throw new Error("useAuth must be used within an AuthProvider");
   }
+
   return context;
 }

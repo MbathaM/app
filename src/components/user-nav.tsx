@@ -1,17 +1,13 @@
-import { useAuth } from "@/auth";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
+  Dropdown,
+  DropdownTrigger,
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuGroup,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuShortcut,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { Link, useRouter, useNavigate } from "@tanstack/react-router";
+  DropdownItem,
+} from "@nextui-org/dropdown";
+import { Avatar } from "@nextui-org/avatar";
+import { useRouter, useNavigate } from "@tanstack/react-router";
+
+import { useAuth } from "@/context/auth";
 
 export function UserNav() {
   const router = useRouter();
@@ -30,53 +26,35 @@ export function UserNav() {
 
   // Safely extract user information
   const { email, name, image } = auth.user!;
-  const [firstName, lastName] = name ? name.split(" ") : ["", ""];
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="ghost" className="relative size-8 rounded-full">
-          <Avatar className="size-8">
-            <AvatarImage src={image || undefined} alt={firstName} />
-            <AvatarFallback>
-              {firstName.charAt(0)}
-              {lastName?.charAt(0)}
-            </AvatarFallback>
-          </Avatar>
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent className="w-56" align="end" forceMount>
-        <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            <p className="text-sm font-medium leading-none">
-              {firstName} {lastName}
-            </p>
-            <p className="text-xs leading-none text-muted-foreground">
-              {email || "No email"}
-            </p>
-          </div>
-        </DropdownMenuLabel>
-        <DropdownMenuSeparator />
-        <DropdownMenuGroup>
-          <DropdownMenuItem>
-            <Link to="/dashboard">Dashboard</Link>
-            <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to="/dashboard/profile">Profile</Link>
-            <DropdownMenuShortcut>⌘B</DropdownMenuShortcut>
-          </DropdownMenuItem>
-          <DropdownMenuItem>
-            <Link to="/dashboard/settings">Settings</Link>
-            <DropdownMenuShortcut>⌘S</DropdownMenuShortcut>
-          </DropdownMenuItem>
-        </DropdownMenuGroup>
-        <DropdownMenuSeparator />
-        <DropdownMenuItem onClick={handleLogout}>
-          Log out
-          <DropdownMenuShortcut>⇧⌘Q</DropdownMenuShortcut>
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <Dropdown backdrop="blur" placement="bottom-end">
+      <DropdownTrigger>
+        <Avatar
+          isBordered
+          as="button"
+          className="transition-transform"
+          color="secondary"
+          name={name}
+          size="sm"
+          src={image}
+        />
+      </DropdownTrigger>
+      <DropdownMenu aria-label="Profile Actions" variant="flat">
+        <DropdownItem key="profile" className="h-14 gap-2">
+          <p className="font-semibold">Signed in as</p>
+          <p className="font-semibold">{email}</p>
+        </DropdownItem>
+        <DropdownItem key="settings">My Settings</DropdownItem>
+        <DropdownItem key="team_settings">Team Settings</DropdownItem>
+        <DropdownItem key="analytics">Analytics</DropdownItem>
+        <DropdownItem key="system">System</DropdownItem>
+        <DropdownItem key="configurations">Configurations</DropdownItem>
+        <DropdownItem key="help_and_feedback">Help & Feedback</DropdownItem>
+        <DropdownItem key="logout" color="danger" onClick={handleLogout}>
+          Log Out
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
   );
 }

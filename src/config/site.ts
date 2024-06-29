@@ -1,8 +1,13 @@
 export type SiteConfig = typeof siteConfig;
 
 export const siteConfig = {
-  name: "Acme Inc",
+  name: "Acme Co",
   description: "Make beautiful websites regardless of your design experience.",
+  author: {
+    name: "Melusi Mbatha",
+    email: "me@mbathamelusi.co.za",
+    url: "https://mbathamelusi.co.za",
+  },
   navItems: {
     public: [
       {
@@ -17,31 +22,15 @@ export const siteConfig = {
         label: "Contact",
         href: "/contact",
       },
-    ],
-    dashboard: [
       {
-        label: "Dashboard",
-        href: "/dashboard",
+        label: "Blog",
+        href: "/blog",
       },
-      {
-        label: "Profile",
-        href: "/dashboard/profile",
-      },
-      {
-        label: "Settings",
-        href: "/dashboard/settings",
-      },
-      // {
-      //   label: "Users",
-      //   href: "/users",
-      // },
     ],
   },
   links: {
-    github: "https://github.com/nextui-org/nextui",
-    twitter: "https://twitter.com/getnextui",
-    docs: "https://nextui.org",
-    discord: "https://discord.gg/9b6yyZKmH4",
-    sponsor: "https://patreon.com/jrgarciadev",
+    github: "https://github.com/mbathamelusi",
+    twitter: "https://twitter.com/mbathamelusi",
+    docs: "https://mbathamelusi.co.za/docs",
   },
 };

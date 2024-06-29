@@ -13,29 +13,23 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as TermsImport } from './routes/terms'
 import { Route as SuccessImport } from './routes/success'
+import { Route as PolicyImport } from './routes/policy'
 import { Route as AuthImport } from './routes/auth'
 import { Route as PublicImport } from './routes/_public'
-import { Route as DashboardImport } from './routes/_dashboard'
-import { Route as AuthVerifyEmailImport } from './routes/auth/verify-email'
+import { Route as PublicIndexImport } from './routes/_public/index'
 import { Route as AuthSignupImport } from './routes/auth/signup'
-import { Route as AuthResendVerificationImport } from './routes/auth/resend-verification'
-import { Route as AuthPasswordResetImport } from './routes/auth/password-reset'
 import { Route as AuthPasswordRecoveryImport } from './routes/auth/password-recovery'
 import { Route as AuthLoginImport } from './routes/auth/login'
-import { Route as PublicTermsImport } from './routes/_public/terms'
-import { Route as PublicPolicyImport } from './routes/_public/policy'
-import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
-import { Route as DashboardDashboardSettingsImport } from './routes/_dashboard/dashboard/settings'
-import { Route as DashboardDashboardProfileImport } from './routes/_dashboard/dashboard/profile'
+import { Route as PublicContactImport } from './routes/_public/contact'
+import { Route as PublicBlogImport } from './routes/_public/blog'
+import { Route as PublicAboutImport } from './routes/_public/about'
 
 // Create Virtual Routes
 
 const UnauthorizedLazyImport = createFileRoute('/unauthorized')()
 const UnauthenticatedLazyImport = createFileRoute('/unauthenticated')()
-const PublicIndexLazyImport = createFileRoute('/_public/')()
-const PublicContactLazyImport = createFileRoute('/_public/contact')()
-const PublicAboutLazyImport = createFileRoute('/_public/about')()
 
 // Create/Update Routes
 
@@ -51,8 +45,18 @@ const UnauthenticatedLazyRoute = UnauthenticatedLazyImport.update({
   import('./routes/unauthenticated.lazy').then((d) => d.Route),
 )
 
+const TermsRoute = TermsImport.update({
+  path: '/terms',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const SuccessRoute = SuccessImport.update({
   path: '/success',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PolicyRoute = PolicyImport.update({
+  path: '/policy',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -66,45 +70,13 @@ const PublicRoute = PublicImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardRoute = DashboardImport.update({
-  id: '/_dashboard',
-  getParentRoute: () => rootRoute,
-} as any)
-
-const PublicIndexLazyRoute = PublicIndexLazyImport.update({
+const PublicIndexRoute = PublicIndexImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
-} as any).lazy(() => import('./routes/_public/index.lazy').then((d) => d.Route))
-
-const PublicContactLazyRoute = PublicContactLazyImport.update({
-  path: '/contact',
-  getParentRoute: () => PublicRoute,
-} as any).lazy(() =>
-  import('./routes/_public/contact.lazy').then((d) => d.Route),
-)
-
-const PublicAboutLazyRoute = PublicAboutLazyImport.update({
-  path: '/about',
-  getParentRoute: () => PublicRoute,
-} as any).lazy(() => import('./routes/_public/about.lazy').then((d) => d.Route))
-
-const AuthVerifyEmailRoute = AuthVerifyEmailImport.update({
-  path: '/verify-email',
-  getParentRoute: () => AuthRoute,
 } as any)
 
 const AuthSignupRoute = AuthSignupImport.update({
   path: '/signup',
-  getParentRoute: () => AuthRoute,
-} as any)
-
-const AuthResendVerificationRoute = AuthResendVerificationImport.update({
-  path: '/resend-verification',
-  getParentRoute: () => AuthRoute,
-} as any)
-
-const AuthPasswordResetRoute = AuthPasswordResetImport.update({
-  path: '/password-reset',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -118,44 +90,25 @@ const AuthLoginRoute = AuthLoginImport.update({
   getParentRoute: () => AuthRoute,
 } as any)
 
-const PublicTermsRoute = PublicTermsImport.update({
-  path: '/terms',
+const PublicContactRoute = PublicContactImport.update({
+  path: '/contact',
   getParentRoute: () => PublicRoute,
 } as any)
 
-const PublicPolicyRoute = PublicPolicyImport.update({
-  path: '/policy',
+const PublicBlogRoute = PublicBlogImport.update({
+  path: '/blog',
   getParentRoute: () => PublicRoute,
 } as any)
 
-const DashboardDashboardRoute = DashboardDashboardImport.update({
-  path: '/dashboard',
-  getParentRoute: () => DashboardRoute,
-} as any)
-
-const DashboardDashboardSettingsRoute = DashboardDashboardSettingsImport.update(
-  {
-    path: '/settings',
-    getParentRoute: () => DashboardDashboardRoute,
-  } as any,
-)
-
-const DashboardDashboardProfileRoute = DashboardDashboardProfileImport.update({
-  path: '/profile',
-  getParentRoute: () => DashboardDashboardRoute,
+const PublicAboutRoute = PublicAboutImport.update({
+  path: '/about',
+  getParentRoute: () => PublicRoute,
 } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_dashboard': {
-      id: '/_dashboard'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof DashboardImport
-      parentRoute: typeof rootRoute
-    }
     '/_public': {
       id: '/_public'
       path: ''
@@ -170,11 +123,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
+    '/policy': {
+      id: '/policy'
+      path: '/policy'
+      fullPath: '/policy'
+      preLoaderRoute: typeof PolicyImport
+      parentRoute: typeof rootRoute
+    }
     '/success': {
       id: '/success'
       path: '/success'
       fullPath: '/success'
       preLoaderRoute: typeof SuccessImport
+      parentRoute: typeof rootRoute
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsImport
       parentRoute: typeof rootRoute
     }
     '/unauthenticated': {
@@ -191,25 +158,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof UnauthorizedLazyImport
       parentRoute: typeof rootRoute
     }
-    '/_dashboard/dashboard': {
-      id: '/_dashboard/dashboard'
-      path: '/dashboard'
-      fullPath: '/dashboard'
-      preLoaderRoute: typeof DashboardDashboardImport
-      parentRoute: typeof DashboardImport
-    }
-    '/_public/policy': {
-      id: '/_public/policy'
-      path: '/policy'
-      fullPath: '/policy'
-      preLoaderRoute: typeof PublicPolicyImport
+    '/_public/about': {
+      id: '/_public/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof PublicAboutImport
       parentRoute: typeof PublicImport
     }
-    '/_public/terms': {
-      id: '/_public/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof PublicTermsImport
+    '/_public/blog': {
+      id: '/_public/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof PublicBlogImport
+      parentRoute: typeof PublicImport
+    }
+    '/_public/contact': {
+      id: '/_public/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof PublicContactImport
       parentRoute: typeof PublicImport
     }
     '/auth/login': {
@@ -226,20 +193,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthPasswordRecoveryImport
       parentRoute: typeof AuthImport
     }
-    '/auth/password-reset': {
-      id: '/auth/password-reset'
-      path: '/password-reset'
-      fullPath: '/auth/password-reset'
-      preLoaderRoute: typeof AuthPasswordResetImport
-      parentRoute: typeof AuthImport
-    }
-    '/auth/resend-verification': {
-      id: '/auth/resend-verification'
-      path: '/resend-verification'
-      fullPath: '/auth/resend-verification'
-      preLoaderRoute: typeof AuthResendVerificationImport
-      parentRoute: typeof AuthImport
-    }
     '/auth/signup': {
       id: '/auth/signup'
       path: '/signup'
@@ -247,47 +200,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthSignupImport
       parentRoute: typeof AuthImport
     }
-    '/auth/verify-email': {
-      id: '/auth/verify-email'
-      path: '/verify-email'
-      fullPath: '/auth/verify-email'
-      preLoaderRoute: typeof AuthVerifyEmailImport
-      parentRoute: typeof AuthImport
-    }
-    '/_public/about': {
-      id: '/_public/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof PublicAboutLazyImport
-      parentRoute: typeof PublicImport
-    }
-    '/_public/contact': {
-      id: '/_public/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof PublicContactLazyImport
-      parentRoute: typeof PublicImport
-    }
     '/_public/': {
       id: '/_public/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof PublicIndexLazyImport
+      preLoaderRoute: typeof PublicIndexImport
       parentRoute: typeof PublicImport
-    }
-    '/_dashboard/dashboard/profile': {
-      id: '/_dashboard/dashboard/profile'
-      path: '/profile'
-      fullPath: '/dashboard/profile'
-      preLoaderRoute: typeof DashboardDashboardProfileImport
-      parentRoute: typeof DashboardDashboardImport
-    }
-    '/_dashboard/dashboard/settings': {
-      id: '/_dashboard/dashboard/settings'
-      path: '/settings'
-      fullPath: '/dashboard/settings'
-      preLoaderRoute: typeof DashboardDashboardSettingsImport
-      parentRoute: typeof DashboardDashboardImport
     }
   }
 }
@@ -295,28 +213,20 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  DashboardRoute: DashboardRoute.addChildren({
-    DashboardDashboardRoute: DashboardDashboardRoute.addChildren({
-      DashboardDashboardProfileRoute,
-      DashboardDashboardSettingsRoute,
-    }),
-  }),
   PublicRoute: PublicRoute.addChildren({
-    PublicPolicyRoute,
-    PublicTermsRoute,
-    PublicAboutLazyRoute,
-    PublicContactLazyRoute,
-    PublicIndexLazyRoute,
+    PublicAboutRoute,
+    PublicBlogRoute,
+    PublicContactRoute,
+    PublicIndexRoute,
   }),
   AuthRoute: AuthRoute.addChildren({
     AuthLoginRoute,
     AuthPasswordRecoveryRoute,
-    AuthPasswordResetRoute,
-    AuthResendVerificationRoute,
     AuthSignupRoute,
-    AuthVerifyEmailRoute,
   }),
+  PolicyRoute,
   SuccessRoute,
+  TermsRoute,
   UnauthenticatedLazyRoute,
   UnauthorizedLazyRoute,
 })
@@ -329,26 +239,20 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_dashboard",
         "/_public",
         "/auth",
+        "/policy",
         "/success",
+        "/terms",
         "/unauthenticated",
         "/unauthorized"
-      ]
-    },
-    "/_dashboard": {
-      "filePath": "_dashboard.tsx",
-      "children": [
-        "/_dashboard/dashboard"
       ]
     },
     "/_public": {
       "filePath": "_public.tsx",
       "children": [
-        "/_public/policy",
-        "/_public/terms",
         "/_public/about",
+        "/_public/blog",
         "/_public/contact",
         "/_public/"
       ]
@@ -358,14 +262,17 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/auth/login",
         "/auth/password-recovery",
-        "/auth/password-reset",
-        "/auth/resend-verification",
-        "/auth/signup",
-        "/auth/verify-email"
+        "/auth/signup"
       ]
+    },
+    "/policy": {
+      "filePath": "policy.tsx"
     },
     "/success": {
       "filePath": "success.tsx"
+    },
+    "/terms": {
+      "filePath": "terms.tsx"
     },
     "/unauthenticated": {
       "filePath": "unauthenticated.lazy.tsx"
@@ -373,20 +280,16 @@ export const routeTree = rootRoute.addChildren({
     "/unauthorized": {
       "filePath": "unauthorized.lazy.tsx"
     },
-    "/_dashboard/dashboard": {
-      "filePath": "_dashboard/dashboard.tsx",
-      "parent": "/_dashboard",
-      "children": [
-        "/_dashboard/dashboard/profile",
-        "/_dashboard/dashboard/settings"
-      ]
-    },
-    "/_public/policy": {
-      "filePath": "_public/policy.tsx",
+    "/_public/about": {
+      "filePath": "_public/about.tsx",
       "parent": "/_public"
     },
-    "/_public/terms": {
-      "filePath": "_public/terms.tsx",
+    "/_public/blog": {
+      "filePath": "_public/blog.tsx",
+      "parent": "/_public"
+    },
+    "/_public/contact": {
+      "filePath": "_public/contact.tsx",
       "parent": "/_public"
     },
     "/auth/login": {
@@ -397,41 +300,13 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "auth/password-recovery.tsx",
       "parent": "/auth"
     },
-    "/auth/password-reset": {
-      "filePath": "auth/password-reset.tsx",
-      "parent": "/auth"
-    },
-    "/auth/resend-verification": {
-      "filePath": "auth/resend-verification.tsx",
-      "parent": "/auth"
-    },
     "/auth/signup": {
       "filePath": "auth/signup.tsx",
       "parent": "/auth"
     },
-    "/auth/verify-email": {
-      "filePath": "auth/verify-email.tsx",
-      "parent": "/auth"
-    },
-    "/_public/about": {
-      "filePath": "_public/about.lazy.tsx",
-      "parent": "/_public"
-    },
-    "/_public/contact": {
-      "filePath": "_public/contact.lazy.tsx",
-      "parent": "/_public"
-    },
     "/_public/": {
-      "filePath": "_public/index.lazy.tsx",
+      "filePath": "_public/index.tsx",
       "parent": "/_public"
-    },
-    "/_dashboard/dashboard/profile": {
-      "filePath": "_dashboard/dashboard/profile.tsx",
-      "parent": "/_dashboard/dashboard"
-    },
-    "/_dashboard/dashboard/settings": {
-      "filePath": "_dashboard/dashboard/settings.tsx",
-      "parent": "/_dashboard/dashboard"
     }
   }
 }

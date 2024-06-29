@@ -1,5 +1,6 @@
-import { SiteHeader } from "@/components/site-header";
 import { Outlet, createFileRoute } from "@tanstack/react-router";
+
+import { SiteHeader } from "@/components/site-header";
 
 export const Route = createFileRoute("/_public")({
   component: PublicLayout,
@@ -7,13 +8,13 @@ export const Route = createFileRoute("/_public")({
 
 function PublicLayout() {
   return (
-    <div className="relative flex flex-col">
+    <div className="relative">
       <SiteHeader />
-      <main className="container grow">
-        <section className="flex flex-col items-center justify-center gap-2 py-2 md:py-10">
+      <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10">
+        <div className="inline-block max-w-lg text-center justify-center">
           <Outlet />
-        </section>
-      </main>
+        </div>
+      </section>
     </div>
   );
 }

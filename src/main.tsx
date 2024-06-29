@@ -1,13 +1,16 @@
-import { StrictMode } from "react"
-import ReactDOM from "react-dom/client"
-import { ThemeProvider } from "@/components/theme-provider"
-import { App } from "@/app"
+import { StrictMode } from "react";
+import ReactDOM from "react-dom/client";
 
-// Render the app
+import { ThemeProvider } from "@/context/theme";
+import { App } from "@/app";
+import { AuthProvider } from "@/context/auth";
+
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ThemeProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </ThemeProvider>
-  </StrictMode>
+  </StrictMode>,
 );

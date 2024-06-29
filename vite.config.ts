@@ -1,15 +1,12 @@
-// vite.config.ts
-import path from "path"
-import { defineConfig } from 'vite'
-import viteReact from '@vitejs/plugin-react'
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite'
+import path from "path";
+
+import viteReact from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import { TanStackRouterVite } from "@tanstack/router-plugin/vite";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    TanStackRouterVite(),
-    viteReact(),
-  ],
+  plugins: [viteReact(), TanStackRouterVite()],
   resolve: {
     alias: {
       "@": path.resolve(__dirname, "./src"),
@@ -17,11 +14,10 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      "api": {
-        target: 'api.mbathamelusi.workers.dev',
-        // target: 'http://127.0.0.1:8787',
-        changeOrigin: true
-      }
-    }
-  }
-})
+      api: {
+        target: "https://api.mbathamelusi.workers.dev",
+        changeOrigin: true,
+      },
+    },
+  },
+});
