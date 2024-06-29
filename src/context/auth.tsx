@@ -12,14 +12,20 @@ import { toast } from "sonner";
 interface User {
   email: string;
   email_verified: number;
-  name: string;
+  firstName: string;
+  lastName: string;
   image: string;
   id: string;
 }
 
 export interface AuthContext {
   isAuthenticated: boolean;
-  signup: (email: string, password: string) => Promise<void>;
+  signup: (
+    firstName: string,
+    lastName: string,
+    email: string,
+    password: string,
+  ) => Promise<void>;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
   resendVerification: (email: string) => Promise<void>;
@@ -35,23 +41,31 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const isAuthenticated = !!user;
 
-  const signup = useCallback(async (email: string, password: string) => {
-    const options = {
-      method: "POST",
-      url: "https://api.mbathamelusi.workers.dev/api/auth/signup",
-      headers: { "Content-Type": "application/json" },
-      data: { email, password },
-      withCredentials: true,
-    };
+  const signup = useCallback(
+    async (
+      firstName: string,
+      lastName: string,
+      email: string,
+      password: string,
+    ) => {
+      const options = {
+        method: "POST",
+        url: "https://api.mbathamelusi.workers.dev/api/auth/signup",
+        headers: { "Content-Type": "application/json" },
+        data: { firstName, lastName, email, password },
+        withCredentials: true,
+      };
 
-    try {
-      const { data } = await axios.request(options);
+      try {
+        const { data } = await axios.request(options);
 
-      toast.info(data);
-    } catch (error) {
-      toast.error(`${error}`);
-    }
-  }, []);
+        toast.info(data);
+      } catch (error) {
+        toast.error(`${error}`);
+      }
+    },
+    [],
+  );
 
   const login = useCallback(async (email: string, password: string) => {
     const options = {
