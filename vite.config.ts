@@ -12,12 +12,12 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
-  server: {
-    proxy: {
-      api: {
-        target: "https://api.mbathamelusi.workers.dev",
-        changeOrigin: true,
-      },
-    },
-  },
+  // server: {
+  //   proxy: {
+  //     api: {
+  //       target: "https://api.mbathamelusi.workers.dev",
+  //       changeOrigin: true,
+  //     },
+  //   },
+  // },
 });
