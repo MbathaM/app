@@ -25,7 +25,7 @@ export function UserNav() {
   };
 
   // Safely extract user information
-  const { email, name, image } = auth.user!;
+  const { email, firstName, lastName, image } = auth.user!;
 
   return (
     <Dropdown backdrop="blur" placement="bottom-end">
@@ -35,7 +35,7 @@ export function UserNav() {
           as="button"
           className="transition-transform"
           color="secondary"
-          name={name}
+          name={`${firstName} ${lastName}`}
           size="sm"
           src={image}
         />
