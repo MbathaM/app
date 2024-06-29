@@ -18,6 +18,7 @@ import { Route as SuccessImport } from './routes/success'
 import { Route as PolicyImport } from './routes/policy'
 import { Route as AuthImport } from './routes/auth'
 import { Route as PublicImport } from './routes/_public'
+import { Route as DashboardImport } from './routes/_dashboard'
 import { Route as PublicIndexImport } from './routes/_public/index'
 import { Route as AuthSignupImport } from './routes/auth/signup'
 import { Route as AuthPasswordRecoveryImport } from './routes/auth/password-recovery'
@@ -25,6 +26,8 @@ import { Route as AuthLoginImport } from './routes/auth/login'
 import { Route as PublicContactImport } from './routes/_public/contact'
 import { Route as PublicBlogImport } from './routes/_public/blog'
 import { Route as PublicAboutImport } from './routes/_public/about'
+import { Route as DashboardProfileImport } from './routes/_dashboard/profile'
+import { Route as DashboardDashboardImport } from './routes/_dashboard/dashboard'
 
 // Create Virtual Routes
 
@@ -70,6 +73,11 @@ const PublicRoute = PublicImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const DashboardRoute = DashboardImport.update({
+  id: '/_dashboard',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const PublicIndexRoute = PublicIndexImport.update({
   path: '/',
   getParentRoute: () => PublicRoute,
@@ -105,10 +113,27 @@ const PublicAboutRoute = PublicAboutImport.update({
   getParentRoute: () => PublicRoute,
 } as any)
 
+const DashboardProfileRoute = DashboardProfileImport.update({
+  path: '/profile',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
+const DashboardDashboardRoute = DashboardDashboardImport.update({
+  path: '/dashboard',
+  getParentRoute: () => DashboardRoute,
+} as any)
+
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_dashboard': {
+      id: '/_dashboard'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof DashboardImport
+      parentRoute: typeof rootRoute
+    }
     '/_public': {
       id: '/_public'
       path: ''
@@ -157,6 +182,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/unauthorized'
       preLoaderRoute: typeof UnauthorizedLazyImport
       parentRoute: typeof rootRoute
+    }
+    '/_dashboard/dashboard': {
+      id: '/_dashboard/dashboard'
+      path: '/dashboard'
+      fullPath: '/dashboard'
+      preLoaderRoute: typeof DashboardDashboardImport
+      parentRoute: typeof DashboardImport
+    }
+    '/_dashboard/profile': {
+      id: '/_dashboard/profile'
+      path: '/profile'
+      fullPath: '/profile'
+      preLoaderRoute: typeof DashboardProfileImport
+      parentRoute: typeof DashboardImport
     }
     '/_public/about': {
       id: '/_public/about'
@@ -213,6 +252,10 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
+  DashboardRoute: DashboardRoute.addChildren({
+    DashboardDashboardRoute,
+    DashboardProfileRoute,
+  }),
   PublicRoute: PublicRoute.addChildren({
     PublicAboutRoute,
     PublicBlogRoute,
@@ -239,6 +282,7 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
+        "/_dashboard",
         "/_public",
         "/auth",
         "/policy",
@@ -246,6 +290,13 @@ export const routeTree = rootRoute.addChildren({
         "/terms",
         "/unauthenticated",
         "/unauthorized"
+      ]
+    },
+    "/_dashboard": {
+      "filePath": "_dashboard.tsx",
+      "children": [
+        "/_dashboard/dashboard",
+        "/_dashboard/profile"
       ]
     },
     "/_public": {
@@ -279,6 +330,14 @@ export const routeTree = rootRoute.addChildren({
     },
     "/unauthorized": {
       "filePath": "unauthorized.lazy.tsx"
+    },
+    "/_dashboard/dashboard": {
+      "filePath": "_dashboard/dashboard.tsx",
+      "parent": "/_dashboard"
+    },
+    "/_dashboard/profile": {
+      "filePath": "_dashboard/profile.tsx",
+      "parent": "/_dashboard"
     },
     "/_public/about": {
       "filePath": "_public/about.tsx",
