@@ -38,7 +38,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signup = useCallback(async (email: string, password: string) => {
     const options = {
       method: "POST",
-      url: "/api/auth/signup",
+      url: "https://api.mbathamelusi.workers.dev/api/auth/signup",
       headers: { "Content-Type": "application/json" },
       data: { email, password },
       withCredentials: true,
@@ -56,7 +56,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const login = useCallback(async (email: string, password: string) => {
     const options = {
       method: "POST",
-      url: "/api/auth/login",
+      url: "https://api.mbathamelusi.workers.dev/api/auth/login",
       headers: { "Content-Type": "application/json" },
       data: { email, password },
       withCredentials: true,
@@ -79,7 +79,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = useCallback(async () => {
     const options = {
       method: "GET",
-      url: "/api/auth/logout",
+      url: "https://api.mbathamelusi.workers.dev/api/auth/logout",
       withCredentials: true,
     };
 
@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const resendVerification = useCallback(async (email: string) => {
     const options = {
       method: "POST",
-      url: "/api/auth/resend-verification",
+      url: "https://api.mbathamelusi.workers.dev/api/auth/resend-verification",
       headers: { "Content-Type": "application/json" },
       data: { email },
       withCredentials: true,
@@ -113,7 +113,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const recoverPassword = useCallback(async (email: string) => {
     const options = {
       method: "POST",
-      url: "/api/auth/password-recovery",
+      url: "https://api.mbathamelusi.workers.dev/api/auth/password-recovery",
       headers: { "Content-Type": "application/json" },
       data: { email },
       withCredentials: true,
@@ -131,7 +131,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const resetPassword = useCallback(async (code: string, password: string) => {
     const options = {
       method: "POST",
-      url: "/api/auth/password-reset",
+      url: "https://api.mbathamelusi.workers.dev/api/auth/password-reset",
       headers: { "Content-Type": "application/json" },
       data: { code, password },
       withCredentials: true,
@@ -149,7 +149,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const verifyEmail = useCallback(async (email: string, code: string) => {
     const options = {
       method: "POST",
-      url: "/api/auth/verify-email",
+      url: "https://api.mbathamelusi.workers.dev/api/auth/verify-email",
       headers: { "Content-Type": "application/json" },
       data: { email, code },
       withCredentials: true,
